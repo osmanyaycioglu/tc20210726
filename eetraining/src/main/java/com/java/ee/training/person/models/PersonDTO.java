@@ -1,34 +1,11 @@
-package com.java.ee.training.rest;
+package com.java.ee.training.person.models;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+public class PersonDTO {
 
-public class Person {
-
-    @NotEmpty
-    @Size(min = 5, max = 25, message = "Username 5 ile 20 arasında olmalı")
     private String  username;
-
-    @QueryParam("name")
-    @NotEmpty
-    @Size(min = 2, max = 25, message = "Name 2 ile 20 arasında olmalı")
     private String  name;
-    @QueryParam("surname")
-    @NotEmpty
-    @Size(min = 3, max = 30, message = "Surname 3 ile 30 arasında olmalı")
     private String  surname;
-    @Max(300)
-    @Min(10)
-    @PathParam("weight")
     private Integer weight;
-    @Max(300)
-    @Min(50)
-    @HeaderParam("height")
     private Integer height;
 
     public String getName() {
@@ -70,6 +47,5 @@ public class Person {
     public void setUsername(final String usernameParam) {
         this.username = usernameParam;
     }
-
 
 }

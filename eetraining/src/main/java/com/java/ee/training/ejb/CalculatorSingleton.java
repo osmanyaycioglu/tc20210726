@@ -9,18 +9,22 @@ public class CalculatorSingleton {
 
     private int total;
 
+    private synchronized void addToTotal(final int total) {
+        this.total += total;
+    }
+
 
     public int add(final int i1,
                    final int i2) {
         int processLoc = i1 + i2;
-        this.total += processLoc;
+        this.addToTotal(processLoc);
         return processLoc;
     }
 
     public int subs(final int i1,
                     final int i2) {
         int processLoc = i1 - i2;
-        this.total -= processLoc;
+        this.addToTotal(-1 * processLoc);
         return processLoc;
     }
 
