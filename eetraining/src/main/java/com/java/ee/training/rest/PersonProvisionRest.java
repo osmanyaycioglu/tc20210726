@@ -1,21 +1,22 @@
 package com.java.ee.training.rest;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.ws.rs.GET;
+import javax.validation.Valid;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 @Path("/api/v1/person/provision")
-@WebService(targetNamespace = "http://turkcell.com/training")
 public class PersonProvisionRest {
 
     @Path("/add")
-    @GET
+    @POST
     @Produces("text/plain")
-    @WebMethod(operationName = "addMe")
-    public String add(@WebParam(name = "person") final Person person) {
+    public String add(@Valid final Person person) {
+        if ((person.getName() == null)
+            || person.getName()
+                     .isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         return "SUCCESS";
     }
 
