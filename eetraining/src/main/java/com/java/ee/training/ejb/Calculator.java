@@ -1,18 +1,25 @@
 package com.java.ee.training.ejb;
 
+import java.io.Serializable;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
+import javax.ejb.PostActivate;
+import javax.ejb.PrePassivate;
+import javax.ejb.Remove;
 import javax.ejb.Stateful;
 
 
 @Stateful
 @LocalBean
-public class Calculator {
+public class Calculator implements Serializable {
+
+    private static final long serialVersionUID = 2799369711061974461L;
 
     @EJB
-    AddProcess  addProcess;
+    AddProcess                addProcess;
 
-    private int total;
+    private int               total;
 
     public Calculator() {
     }
@@ -34,6 +41,21 @@ public class Calculator {
 
     public int getTotal() {
         return this.total;
+    }
+
+    @Remove
+    public void removeAction() {
+        System.out.println("Removed");
+    }
+
+    @PrePassivate
+    public void prePasif() {
+        System.out.println("PrePassivate");
+    }
+
+    @PostActivate
+    public void postActif() {
+        System.out.println("PostActivate");
     }
 
 }
