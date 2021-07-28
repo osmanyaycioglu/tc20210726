@@ -1,5 +1,7 @@
 package com.java.ee.training.person.services;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -25,6 +27,10 @@ public class PersonManagement {
 
     public PersonDTO getPerson(final String username) {
         return this.ps.getPerson(username);
+    }
+
+    public List<PersonDTO> getAll() {
+        return this.ps.getAll();
     }
 
 

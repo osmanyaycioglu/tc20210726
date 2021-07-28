@@ -1,5 +1,8 @@
 package com.java.ee.training.person.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.validation.Valid;
 import javax.ws.rs.GET;
@@ -9,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.java.ee.training.person.mappings.PersonMapping;
 import com.java.ee.training.person.models.PersonDTO;
 import com.java.ee.training.person.services.PersonManagement;
 import com.java.ee.training.rest.Person;
@@ -23,12 +27,7 @@ public class PersonProvisionRest {
     @POST
     @Produces("text/plain")
     public String add(@Valid final Person person) {
-        PersonDTO personDTOLoc = new PersonDTO();
-        personDTOLoc.setUsername(person.getUsername());
-        personDTOLoc.setName(person.getName());
-        personDTOLoc.setSurname(person.getSurname());
-        personDTOLoc.setWeight(person.getWeight());
-        personDTOLoc.setHeight(person.getHeight());
+        PersonDTO personDTOLoc = PersonMapping.personToDTO(person);
         this.pm.addPerson(personDTOLoc);
         return "SUCCESS";
     }
@@ -36,18 +35,26 @@ public class PersonProvisionRest {
     @Path("/get")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Person add(@QueryParam("un") final String username) {
+    public Person get(@QueryParam("un") final String username) {
         PersonDTO personLoc = this.pm.getPerson(username);
         if (personLoc == null) {
             throw new IllegalArgumentException("Bu isimli user yok : " + username);
         }
-        Person person = new Person();
-        person.setUsername(personLoc.getUsername());
-        person.setName(personLoc.getName());
-        person.setSurname(personLoc.getSurname());
-        person.setWeight(personLoc.getWeight());
-        person.setHeight(personLoc.getHeight());
+        Person person = PersonMapping.DTOToPerson(personLoc);
         return person;
+    }
+
+    @Path("/getall")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Person> getall() {
+        List<PersonDTO> personsLoc = this.pm.getAll();
+        List<Person> personList = new ArrayList<>();
+        for (PersonDTO personDTOLoc : personsLoc) {
+            Person personLoc = PersonMapping.DTOToPerson(personDTOLoc);
+            personList.add(personLoc);
+        }
+        return personList;
     }
 
 }

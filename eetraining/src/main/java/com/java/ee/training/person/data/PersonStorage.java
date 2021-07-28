@@ -1,5 +1,7 @@
 package com.java.ee.training.person.data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +28,10 @@ public class PersonStorage {
 
     public PersonDTO getPerson(final String username) {
         return this.personMap.get(username);
+    }
+
+    public List<PersonDTO> getAll() {
+        return new ArrayList<>(this.personMap.values());
     }
 
 }
