@@ -7,7 +7,7 @@ import javax.jws.WebService;
 import com.java.ee.training.rest.Person;
 
 @WebService(targetNamespace = "http://turkcell.com/training")
-public class PersonProvisionWs {
+public class PersonTestWs {
 
     @WebMethod(operationName = "addMe")
     public String add(@WebParam(name = "person") final Person person) {

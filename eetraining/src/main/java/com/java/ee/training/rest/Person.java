@@ -7,7 +7,9 @@ import javax.validation.constraints.Size;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Person {
 
     @NotEmpty
