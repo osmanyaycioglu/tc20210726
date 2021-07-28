@@ -1,6 +1,17 @@
 package com.java.ee.training.person.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "person")
 public class PersonDTO {
+
+    @Id
+    @GeneratedValue
+    private Long    personId;
 
     private String  username;
     private String  name;
@@ -46,6 +57,14 @@ public class PersonDTO {
 
     public void setUsername(final String usernameParam) {
         this.username = usernameParam;
+    }
+
+    public Long getPersonId() {
+        return this.personId;
+    }
+
+    public void setPersonId(final Long personIdParam) {
+        this.personId = personIdParam;
     }
 
 }
