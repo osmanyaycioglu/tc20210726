@@ -41,6 +41,7 @@ import javax.validation.constraints.Size;
                 allocationSize = 100)
 public class PersonDTO {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "xyz")
     // @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "xyz")
@@ -71,8 +72,11 @@ public class PersonDTO {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "person")
     private Set<Phone>   phones;
 
+    //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    //    private Set<Department> departments;
+
     @Version
-    private Long         mver;
+    private Long mver;
 
     public String getName() {
         return this.name;

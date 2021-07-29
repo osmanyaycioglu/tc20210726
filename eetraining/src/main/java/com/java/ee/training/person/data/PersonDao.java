@@ -1,18 +1,24 @@
 package com.java.ee.training.person.data;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import com.java.ee.training.person.models.PersonDTO;
 
 @LocalBean
 @Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class PersonDao {
 
     @PersistenceContext(unitName = "eetraining")
@@ -21,9 +27,14 @@ public class PersonDao {
     //    @PersistenceUnit(unitName = "eetraining")
     //    private EntityManagerFactory emf;
 
+    //    @Resource(lookup = "")
+    //    DataSource dataSource;
+
     public void addPersonPureJava(final PersonDTO person) {
         this.em.getTransaction()
                .begin();
+        //        Connection connectionLoc = dataSource.getConnection();
+        //        connectionLoc.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
         try {
             this.em.persist(person); // Managed
             person.setUsername("asghjd");
@@ -35,9 +46,12 @@ public class PersonDao {
         }
     }
 
+    @Transactional(value = TxType.REQUIRES_NEW,
+                   dontRollbackOn = {
+                                      IOException.class
+                   })
     public void addPerson(final PersonDTO person) {
         this.em.persist(person); // Managed
-        person.setUsername("asghjd");
     }
 
     public void updatePerson(final PersonDTO person) {

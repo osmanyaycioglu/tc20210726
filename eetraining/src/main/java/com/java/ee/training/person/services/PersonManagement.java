@@ -18,6 +18,7 @@ public class PersonManagement {
 
     public void addPerson(final PersonDTO person) {
         this.ps.addPerson(person);
+        // Another EJB
     }
 
     public void removePerson(final Long personId) {
