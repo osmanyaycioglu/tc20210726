@@ -1,21 +1,38 @@
 package com.java.ee.training.person.models;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+@NamedQueries({
+                @NamedQuery(name = "find_by_username", query = "select p from PersonDTO p where p.username=?1"),
+                @NamedQuery(name = "find_by_name_and_surname",
+                            query = "select p from PersonDTO p where p.name=:isim and p.surname=:soy")
+
+})
 @Entity
-@Table(name = "person")
+@Table(name = "person",
+       indexes = {
+                   @Index(name = "first_index_1", columnList = "name,surname")
+       })
 @TableGenerator(pkColumnName = "generator",
                 pkColumnValue = "PersonDTOIdGen",
                 name = "xyz",
@@ -30,10 +47,14 @@ public class PersonDTO {
     private Long         personId;
 
     @NotEmpty
+    @Size(min = 5, max = 12)
+    @Column(unique = true, nullable = false)
     private String       username;
     @NotEmpty
+    @Size(min = 2, max = 25)
     private String       name;
     @NotEmpty
+    @Column(length = 30)
     private String       surname;
     @NotNull
     private Integer      weight;
@@ -44,8 +65,11 @@ public class PersonDTO {
     @NotNull
     private PersonDetail personDetail;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "person")
     private Address      address;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "person")
+    private Set<Phone>   phones;
 
     @Version
     private Long         mver;
@@ -121,5 +145,14 @@ public class PersonDTO {
     public void setMver(final Long mverParam) {
         this.mver = mverParam;
     }
+
+    public Set<Phone> getPhones() {
+        return this.phones;
+    }
+
+    public void setPhones(final Set<Phone> phonesParam) {
+        this.phones = phonesParam;
+    }
+
 
 }

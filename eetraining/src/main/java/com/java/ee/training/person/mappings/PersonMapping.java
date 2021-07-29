@@ -1,8 +1,16 @@
 package com.java.ee.training.person.mappings;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.java.ee.training.person.models.Address;
 import com.java.ee.training.person.models.PersonDTO;
 import com.java.ee.training.person.models.PersonDetail;
+import com.java.ee.training.person.models.Phone;
 import com.java.ee.training.rest.Person;
+import com.java.ee.training.rest.Telephone;
 
 public class PersonMapping {
 
@@ -18,7 +26,22 @@ public class PersonMapping {
         detailLoc.setGender(person.getGender());
         detailLoc.setNote(person.getNote());
         personDTOLoc.setPersonDetail(detailLoc);
+
+        Address addressLoc = person.getAddress();
+        addressLoc.setPerson(personDTOLoc);
         personDTOLoc.setAddress(person.getAddress());
+
+        Set<Phone> phoneSetLoc = new HashSet<>();
+        List<Telephone> phonesLoc = person.getPhones();
+        for (Telephone phoneLoc : phonesLoc) {
+            Phone internalPhone = new Phone();
+            internalPhone.setName(phoneLoc.getName());
+            internalPhone.setDestination(phoneLoc.getDestination());
+            internalPhone.setPerson(personDTOLoc);
+            phoneSetLoc.add(internalPhone);
+        }
+        personDTOLoc.setPhones(phoneSetLoc);
+
         return personDTOLoc;
     }
 
@@ -36,6 +59,15 @@ public class PersonMapping {
                                 .getNote());
         person.setAddress(personLoc.getAddress());
         person.setPersonId(personLoc.getPersonId());
+        Set<Phone> phonesLoc = personLoc.getPhones();
+        List<Telephone> telephonesLoc = new ArrayList<>();
+        for (Phone phoneLoc : phonesLoc) {
+            Telephone telephoneLoc = new Telephone();
+            telephoneLoc.setDestination(phoneLoc.getDestination());
+            telephoneLoc.setName(phoneLoc.getName());
+            telephonesLoc.add(telephoneLoc);
+        }
+        person.setPhones(telephonesLoc);
         return person;
     }
 

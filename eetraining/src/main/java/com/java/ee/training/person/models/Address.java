@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.TableGenerator;
 
 @Entity
@@ -17,9 +19,13 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "AddressGen")
-    private Long   addId;
-    private String city;
-    private String street;
+    private Long      addId;
+    private String    city;
+    private String    street;
+
+    @OneToOne
+    @JoinColumn(name = "perid")
+    private PersonDTO person;
 
     public String getCity() {
         return this.city;
@@ -35,6 +41,14 @@ public class Address {
 
     public void setStreet(final String streetParam) {
         this.street = streetParam;
+    }
+
+    public PersonDTO getPerson() {
+        return this.person;
+    }
+
+    public void setPerson(final PersonDTO personParam) {
+        this.person = personParam;
     }
 
 

@@ -1,5 +1,7 @@
 package com.java.ee.training.rest;
 
+import java.util.List;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -16,32 +18,33 @@ import com.java.ee.training.person.models.EGender;
 public class Person {
 
 
-    private Long    personId;
+    private Long            personId;
     @NotEmpty
     @Size(min = 5, max = 25, message = "Username 5 ile 20 arasında olmalı")
-    private String  username;
+    private String          username;
 
     @QueryParam("name")
     @NotEmpty
     @Size(min = 2, max = 25, message = "Name 2 ile 20 arasında olmalı")
-    private String  name;
+    private String          name;
     @QueryParam("surname")
     @NotEmpty
     @Size(min = 3, max = 30, message = "Surname 3 ile 30 arasında olmalı")
-    private String  surname;
+    private String          surname;
     @Max(300)
     @Min(10)
     @PathParam("weight")
-    private Integer weight;
+    private Integer         weight;
     @Max(300)
     @Min(50)
     @HeaderParam("height")
-    private Integer height;
-    private EGender gender;
-    private String  note;
+    private Integer         height;
+    private EGender         gender;
+    private String          note;
 
-    private Address address;
+    private Address         address;
 
+    private List<Telephone> phones;
 
     public EGender getGender() {
         return this.gender;
@@ -120,6 +123,16 @@ public class Person {
 
     public void setPersonId(final Long personIdParam) {
         this.personId = personIdParam;
+    }
+
+
+    public List<Telephone> getPhones() {
+        return phones;
+    }
+
+
+    public void setPhones(List<Telephone> phonesParam) {
+        phones = phonesParam;
     }
 
 
