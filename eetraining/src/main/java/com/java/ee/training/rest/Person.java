@@ -9,9 +9,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.java.ee.training.person.models.Address;
+import com.java.ee.training.person.models.EGender;
+
 @XmlRootElement
 public class Person {
 
+
+    private Long    personId;
     @NotEmpty
     @Size(min = 5, max = 25, message = "Username 5 ile 20 arasında olmalı")
     private String  username;
@@ -32,6 +37,30 @@ public class Person {
     @Min(50)
     @HeaderParam("height")
     private Integer height;
+    private EGender gender;
+    private String  note;
+
+    private Address address;
+
+
+    public EGender getGender() {
+        return this.gender;
+    }
+
+
+    public void setGender(final EGender genderParam) {
+        this.gender = genderParam;
+    }
+
+
+    public String getNote() {
+        return this.note;
+    }
+
+
+    public void setNote(final String noteParam) {
+        this.note = noteParam;
+    }
 
     public String getName() {
         return this.name;
@@ -71,6 +100,26 @@ public class Person {
 
     public void setUsername(final String usernameParam) {
         this.username = usernameParam;
+    }
+
+
+    public Address getAddress() {
+        return this.address;
+    }
+
+
+    public void setAddress(final Address addressParam) {
+        this.address = addressParam;
+    }
+
+
+    public Long getPersonId() {
+        return this.personId;
+    }
+
+
+    public void setPersonId(final Long personIdParam) {
+        this.personId = personIdParam;
     }
 
 

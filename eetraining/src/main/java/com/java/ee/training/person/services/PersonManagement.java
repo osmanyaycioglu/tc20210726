@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 
-import com.java.ee.training.person.data.PersonStorage;
+import com.java.ee.training.person.data.PersonDao;
 import com.java.ee.training.person.models.PersonDTO;
 
 @LocalBean
@@ -14,23 +14,27 @@ import com.java.ee.training.person.models.PersonDTO;
 public class PersonManagement {
 
     @EJB
-    private PersonStorage ps;
+    private PersonDao ps;
 
     public void addPerson(final PersonDTO person) {
         this.ps.addPerson(person);
     }
 
-    public void removePerson(final String username) {
-        this.ps.removePerson(username);
+    public void removePerson(final Long personId) {
+        this.ps.removePerson(personId);
     }
 
 
-    public PersonDTO getPerson(final String username) {
-        return this.ps.getPerson(username);
+    public PersonDTO getPerson(final Long personId) {
+        return this.ps.getPerson(personId);
     }
 
     public List<PersonDTO> getAll() {
         return this.ps.getAll();
+    }
+
+    public void updatePerson(final PersonDTO personDTOParam) {
+        this.ps.updatePerson(personDTOParam);
     }
 
 

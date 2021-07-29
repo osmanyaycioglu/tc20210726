@@ -37,13 +37,29 @@ public class PersonProvisionRest {
         return "SUCCESS";
     }
 
+    @Path("/update")
+    @POST
+    @Produces("text/plain")
+    @Consumes({
+                MediaType.APPLICATION_JSON,
+                MediaType.APPLICATION_XML
+    })
+    public String update(@Valid final Person person) {
+        if (person.getPersonId() == null) {
+            throw new IllegalArgumentException("personId null olamaz");
+        }
+        PersonDTO personDTOLoc = PersonMapping.personToDTO(person);
+        this.pm.updatePerson(personDTOLoc);
+        return "SUCCESS";
+    }
+
     @Path("/get")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Person get(@QueryParam("un") final String username) {
-        PersonDTO personLoc = this.pm.getPerson(username);
+    public Person get(@QueryParam("un") final Long personId) {
+        PersonDTO personLoc = this.pm.getPerson(personId);
         if (personLoc == null) {
-            throw new IllegalArgumentException("Bu isimli user yok : " + username);
+            throw new IllegalArgumentException("Bu id li Person yok : " + personId);
         }
         Person person = PersonMapping.DTOToPerson(personLoc);
         return person;

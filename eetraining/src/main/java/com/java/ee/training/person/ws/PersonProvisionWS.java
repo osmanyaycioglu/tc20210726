@@ -25,10 +25,10 @@ public class PersonProvisionWS {
         return "SUCCESS";
     }
 
-    public Person get(@WebParam(name = "username") final String username) {
-        PersonDTO personLoc = this.pm.getPerson(username);
+    public Person get(@WebParam(name = "personId") final Long personId) {
+        PersonDTO personLoc = this.pm.getPerson(personId);
         if (personLoc == null) {
-            throw new IllegalArgumentException("Bu isimli user yok : " + username);
+            throw new IllegalArgumentException("Bu id li person yok : " + personId);
         }
         Person person = PersonMapping.DTOToPerson(personLoc);
         return person;
